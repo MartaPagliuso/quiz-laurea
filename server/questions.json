@@ -1,0 +1,14 @@
+[
+  {
+    "text": "Quale algoritmo di ordinamento ha complessità media O(n log n) ed è stabile?",
+    "options": ["Quicksort", "Merge sort", "Heap sort", "Selection sort"],
+    "correct": 1,
+    "time": 20
+  },
+  {
+    "text": "Domanda di esempio sulla tua università?",
+    "options": ["Risposta A", "Risposta B", "Risposta C", "Risposta D"],
+    "correct": 0,
+    "time": 15
+  }
+]
