@@ -11,6 +11,10 @@
   --color-ok: #1B8449;
   --color-ko: #C93A3A;
   --color-ko-dark: #A82727;
+  --color-admin-panel: #12484F;
+  --color-admin-muted: #BFD9DC;
+  --color-admin-line: #2B6970;
+  --color-ko-light: #FFB4AB;
 
   --font-display: "Anton", sans-serif;
   --font-sans: "Source Sans 3", sans-serif;
@@ -18,4 +22,10 @@
 
 body {
   @apply bg-brand-bg font-sans text-brand-ink;
+}
+
+@layer components {
+  .admin-cta {
+    @apply flex h-[76px] w-full items-center justify-center gap-3 rounded-[20px] bg-brand-orange text-2xl font-extrabold uppercase tracking-[1.5px] text-brand-ink transition hover:brightness-95 active:translate-y-0.5 disabled:opacity-40;
+  }
 }

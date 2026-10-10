@@ -20,6 +20,7 @@ const game = {
   currentIndex: -1,
   endsAt: null,
   timer: null,
+  lastReveal: null,
   players: new Map(),    // name -> { name, score, socketId, answer, lastGain }
 };
 
@@ -37,7 +38,9 @@ function publicQuestion() {
     total: questions.length,
     text: q.text,
     options: q.options,       // NON mandiamo mai "correct" ai client
+    time: q.time,
     endsAt: game.endsAt,
+    now: Date.now(),
   };
 }
 
@@ -56,10 +59,12 @@ function startQuestion() {
 
   const q = questions[game.currentIndex];
   game.phase = 'QUESTION';
+  game.lastReveal = null;
   game.endsAt = Date.now() + q.time * 1000;
   game.players.forEach(p => { p.answer = null; p.lastGain = 0; });
 
   io.emit('question', publicQuestion());
+  io.to('admin').emit('admin:progress', { answered: 0, total: connectedPlayers().length });
   clearTimeout(game.timer);
   game.timer = setTimeout(reveal, q.time * 1000);
 }
@@ -86,7 +91,15 @@ function reveal() {
       isLast: game.currentIndex === questions.length - 1,
     });
   });
-  io.to('admin').emit('admin:reveal', { correct: q.correct, top: board.slice(0, 5) });
+
+  // Salviamo l'ultimo reveal, così la regia lo ritrova se ricarica la pagina
+  game.lastReveal = {
+    index: game.currentIndex,
+    correct: q.correct,
+    top: board.slice(0, 5),
+    isLast: game.currentIndex === questions.length - 1,
+  };
+  io.to('admin').emit('admin:reveal', game.lastReveal);
 }
 
 function endGame() {
@@ -99,6 +112,7 @@ function resetGame() {
   game.phase = 'LOBBY';
   game.currentIndex = -1;
   game.endsAt = null;
+  game.lastReveal = null;
   game.players.forEach(p => { p.score = 0; p.answer = null; p.lastGain = 0; });
   io.emit('reset');
   broadcastLobby();
@@ -170,11 +184,16 @@ io.on('connection', (socket) => {
   socket.on('admin:login', (pin, ack) => {
     if (pin !== ADMIN_PIN) return ack?.({ ok: false });
     socket.join('admin');
+    const online = connectedPlayers();
     ack?.({
       ok: true,
       phase: game.phase,
-      players: connectedPlayers().map(p => p.name),
+      players: online.map(p => p.name),
       total: questions.length,
+      question: game.phase === 'QUESTION' || game.phase === 'REVEAL' ? publicQuestion() : null,
+      answered: online.filter(p => p.answer).length,
+      reveal: game.phase === 'REVEAL' ? game.lastReveal : null,
+      leaderboard: game.phase === 'FINAL' ? leaderboard() : null,
     });
   });
 
