@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-teal: #177C85;
+  --color-brand-orange: #FF9F1C;
+  --color-brand-ink: #0B3A40;
+  --color-brand-bg: #FAFAFA;
+  --color-brand-line: #C9DDE0;
+  --color-brand-tint: #F4F9FA;
+  --color-brand-muted: #4A5B5D;
+  --color-ok: #1B8449;
+  --color-ko: #C93A3A;
+  --color-ko-dark: #A82727;
+
+  --font-display: "Anton", sans-serif;
+  --font-sans: "Source Sans 3", sans-serif;
+}
+
+body {
+  @apply bg-brand-bg font-sans text-brand-ink;
+}

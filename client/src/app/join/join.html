@@ -1,0 +1,66 @@
+<main class="flex min-h-dvh flex-col bg-brand-bg">
+  <header class="relative flex min-h-[372px] flex-col items-center justify-center gap-3.5 overflow-hidden rounded-b-[44px] bg-brand-teal px-6 pb-11 text-center">
+    <!-- Decorazioni -->
+    <div aria-hidden="true" class="absolute -right-[60px] -top-[70px] size-[220px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute -left-14 bottom-5 size-[150px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute left-12 top-[58px] size-3.5 rotate-[20deg] rounded-[3px] bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute right-[52px] top-[112px] size-2.5 rounded-full bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute bottom-[100px] right-[70px] h-1.5 w-5 -rotate-[30deg] rounded-[3px] bg-brand-orange"></div>
+
+    <img src="/logo-minimal-white.svg" alt="" class="relative size-28" />
+    <h1 class="relative font-display text-[56px] uppercase leading-none tracking-wide text-white">
+      Quiz Laurea!
+    </h1>
+
+    <p class="relative max-w-[270px] text-[17px] font-semibold leading-snug text-white">
+      Sfida gli altri ospiti e scala la classifica
+    </p>
+  </header>
+
+  <form (ngSubmit)="enter()" class="relative z-10 -mt-11 mx-6 flex flex-col gap-5 rounded-[28px] bg-white p-6 shadow-[0_12px_32px_rgba(11,58,64,0.12)]">
+    @if(closed()) {
+      <div role="alert" class="flex gap-3 rounded-2xl border-2 border-[#FFD08A] bg-[#FFF4E0] p-3.5">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="mt-px size-6 shrink-0" fill="none" stroke="#0B3A40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9.5" /><path d="M12 11v5.5" /><path d="M12 7.5h.01" />
+        </svg>
+        <div class="flex flex-col gap-1">
+          <span class="text-[17px] font-extrabold">Il quiz è già iniziato</span>
+          <span class="text-[15px] leading-snug">Non si può entrare come nuovo giocatore. Se eri già dentro, rientra con lo stesso nome.</span>
+        </div>
+      </div>
+    }
+
+    <div class="flex flex-col gap-2">
+      <label for="username" class="text-[17px] font-bold">Scegli il tuo username</label>
+      <input id="username" name="username" type="text" [(ngModel)]="name" placeholder="Es. Spongebob" autocomplete="off" maxlength="20"
+        [attr.aria-invalid]="error() && !closed() ? 'true' : null" aria-describedby="username-error"
+        class="h-14 w-full rounded-2xl border-2 px-[18px] text-lg placeholder:text-[#5F7173] focus:outline-[3px] focus:outline-brand-teal/30"
+        [class]="error() && !closed() ? 'border-ko bg-[#FDF0F0]' : 'border-brand-line bg-brand-tint'">
+
+        @if(error() && !closed()) {
+          <p id="username-error" role="alert" class="flex items-center gap-2 text-[15px] font-bold leading-snug text-ko-dark">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9.5" /><path d="M12 7.5v5.5" /><path d="M12 16.5h.01" />
+            </svg>
+            {{ error() }}
+          </p>
+        } @else if (!closed()) {
+          <p class="text-sm leading-snug text-brand-muted">
+            Massimo 20 caratteri. Gli altri lo vedranno in classifica.
+          </p>
+        }
+    </div>
+
+    <button type="submit" [disabled]="loading()"
+      class="flex h-[60px] w-full items-center justify-center gap-2.5 rounded-2xl bg-brand-orange text-/[19px] font-extrabold uppercase tracking-[1.5px] text-brand-ink shadow-[0_8px_16px_rgba(255,159,28,0.35)] transition hover:brightness-95 active:translate-y-0.5 disabled:opacity-60">
+      {{ loading() ? 'Entro...' : closed() ? 'Rientra' : 'Entra' }}
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-[22px]" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+      </svg>
+    </button>
+  </form>
+
+  <p class="mt-auto px-8 pb-9 pt-6 text-center text-[15px] leading-snug text-brand-muted">
+    Il quiz parte quando la regia dà il via.
+  </p>
+</main>

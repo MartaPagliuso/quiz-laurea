@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Quiz di Laurea">
+  <g fill="#ffffff">
+    <!-- tavola del cappello -->
+    <polygon points="60,24 108,44 60,64 12,44"/>
+    <!-- base -->
+    <path d="M32 62 v16 c0 7 12.500 12 28 12 s28-5 28-12 V62 l-28 11.500 z"/>
+    <!-- nappina -->
+    <rect x="96.500" y="46" width="3" height="26" rx="1.500"/>
+    <circle cx="98" cy="75" r="4.500"/>
+  </g>
+</svg>
