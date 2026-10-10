@@ -1,3 +1,63 @@
-<main class="grid min-h-dvh place-items-center bg-brand-teal p-6 text-center text-white">
-  <p class="font-display text-4xl uppercase">Lobby in arrivo…</p>
+<main class="flex min-h-dvh flex-col bg-brand-bg">
+  <header class="relative flex min-h-[300px] flex-col items-center justify-center gap-3 overflow-hidden rounded-b-[44px] bg-brand-teal px-6 pb-11 text-center">
+    <div aria-hidden="true" class="absolute -left-[60px] -top-20 size-[210px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute -right-[50px] bottom-2.5 size-[150px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute right-[60px] top-12 size-3.5 -rotate-[20deg] rounded-[3px] bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute left-11 top-24 size-2.5 rounded-full bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute bottom-[84px] left-[72px] h-1.5 w-5 rotate-[30deg] rounded-[3px] bg-brand-orange"></div>
+  
+    <img src="/logo-minimal-white.svg" alt="" class="relative h-[52px] w-[72px]">
+    <h1 class="relative max-w-full break-words font-display text-[46px] uppercase leading-none tracking-wide text-white">
+      Ciao, {{ name() }}!
+    </h1>
+    <p class="relative max-w-[270px] text-[17px] font-semibold leading-snug text-white">
+      Sei dentro. Tra poco si parte!
+    </p>
+  </header>
+
+  <section
+    class="relative z-10 -mt-11 mx-6 flex flex-col gap-4 rounded-[28px] bg-white p-6 shadow-[0_12px_32px_rgba(11,58,64,0.12)]">
+    <div class="flex items-center justify-between">
+      <h2 class="text-[19px] font-bold">Chi è già dentro</h2>
+      <span
+        class="flex h-7 min-w-[34px] items-center justify-center rounded-full bg-brand-orange px-2.5 text-base font-extrabold"
+        aria-label="{{ players().length }} giocatori">
+        {{ players().length }}
+      </span>
+    </div>
+
+    <ul class="grid max-h-[320px] grid-cols-2 gap-2.5 overflow-y-auto">
+      @for (p of players(); track p; let i = $index) {
+        @let isMe = p === name();
+        <li
+          class="flex h-[52px] items-center gap-2.5 rounded-[14px] border-2 px-2.5"
+          [class]="isMe ? 'border-brand-teal bg-[#E6F3F4]' : 'border-transparent bg-brand-tint'">
+          <span aria-hidden="true"
+            class="flex size-8 shrink-0 items-center justify-center rounded-full text-[15px] font-extrabold"
+            [class]="isMe ? 'bg-brand-teal text-white' : i % 2 === 0 ? 'bg-[#FFE2B5]' : 'bg-[#D2E8EA]'">
+            {{ initial(p) }}
+          </span>
+
+          <span class="min-w-0 grow truncate text-base font-bold">{{ p }}</span>
+          @if (isMe) {
+            <span class="shrink-0 rounded-lg bg-brand-orange px-[7px] py-0.5 text-xs font-extrabold tracking-wide">TU</span>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+
+  <div class="mt-auto flex flex-col items-center gap-3 px-6 pt-6">
+    <div role="status" class="flex items-center gap-3.5 rounded-full border-2 border-brand-line bg-white px-[22px] py-3.5">
+      <span aria-hidden="true" class="flex gap-1.5">
+        <span class="size-2.5 rounded-full bg-brand-orange motion-safe:animate-pulse"></span>
+        <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:200ms] motion-safe:animate-pulse"></span>
+        <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:400ms] motion-safe:animate-pulse"></span>
+      </span>
+      <span class="text-[17px] font-bold">In attesa della regia</span>
+    </div>
+    <p class="max-w-[290px] text-center text-[15px] leading-snug text-brand-muted">
+      Tieni aperta questa pagina: la prima domanda arriva da sola.
+    </p>
+  </div>
 </main>
