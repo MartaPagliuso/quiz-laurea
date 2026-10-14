@@ -1,0 +1,62 @@
+<main class="flex min-h-dvh flex-col bg-brand-bg">
+  <header class="relative flex shrink-0 flex-col items-center gap-[22px] overflow-hidden rounded-b-[44px] bg-brand-teal px-5 pb-9 pt-[34px]">
+    <div aria-hidden="true" class="absolute -right-[60px] -top-20 size-[210px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute -left-[60px] bottom-[30px] size-[150px] rounded-full bg-white/[0.07]"></div>
+    <div aria-hidden="true" class="absolute left-9 top-10 size-3.5 rotate-[20deg] rounded-[3px] bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute right-10 top-[70px] size-2.5 rounded-full bg-brand-orange"></div>
+    <div aria-hidden="true" class="absolute left-[70px] top-[118px] h-1.5 w-5 -rotate-[30deg] rounded-[3px] bg-brand-orange"></div>
+
+    <h1 class="relative font-display text-[38px] uppercase leading-none tracking-wide text-white">Classifica finale</h1>
+
+    <ol class="relative flex items-end justify-center gap-2.5">
+      @for (p of podium(); track p.place) {
+        <li class="flex w-[104px] flex-col items-center gap-0.5">
+          @if (p.first) {
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="size-8"><path d="M3 18l2-10 5 5 2-7 2 7 5-5 2 10z" fill="#FF9F1C" /></svg>
+          }
+          <span class="max-w-full truncate text-lg font-extrabold text-white">{{ p.row.name }}</span>
+          <span class="mb-1.5 text-[15px] font-bold tabular-nums text-white">{{ fmt(p.row.score) }} pt</span>
+          <div class="flex w-full justify-center rounded-2xl pt-2.5" [class]="p.bar">
+            <span aria-hidden="true" class="font-display text-[34px] leading-none text-brand-ink">{{ p.place }}</span>
+            <span class="sr-only">{{ p.place }}° posto</span>
+          </div>
+        </li>
+      }
+    </ol>
+  </header>
+
+  @if (rest().length) {
+    <section class="mx-6 mt-4 flex flex-col gap-2 rounded-3xl bg-white p-4 shadow-[0_8px_24px_rgba(11,58,64,0.08)]">
+      <h2 class="text-[19px] font-extrabold">Tutti i giocatori</h2>
+      <ol class="flex flex-col gap-1.5">
+        @for (row of rest(); track row.name; let i = $index) {
+          @let isMe = row.name === game.name();
+          <li class="flex h-11 items-center gap-3 rounded-[14px] border-2 px-2.5" [class]="isMe ? 'border-brand-teal bg-[#E6F3F4]' : 'border-transparent bg-brand-tint'">
+            <span
+              aria-hidden="true"
+              class="flex size-7 shrink-0 items-center justify-center rounded-full text-[15px] font-extrabold"
+              [class]="isMe ? 'bg-brand-teal text-white' : 'bg-[#D2E8EA]'"
+            >{{ i + 4 }}</span>
+            <span class="min-w-0 grow truncate text-base font-bold">{{ row.name }}</span>
+            @if (isMe) {
+              <span class="shrink-0 rounded-lg bg-brand-orange px-[7px] py-0.5 text-xs font-extrabold tracking-wide">TU</span>
+            }
+            <span class="shrink-0 text-base font-bold tabular-nums">{{ fmt(row.score) }}</span>
+          </li>
+        }
+      </ol>
+    </section>
+  }
+
+  @if (game.myPosition() > 0) {
+    <div class="sticky bottom-0 mt-auto bg-brand-bg/95 px-6 pb-7 pt-4">
+      <div role="status" class="flex items-center justify-between rounded-[20px] bg-brand-teal px-5 py-3.5 text-white shadow-[0_10px_24px_rgba(23,124,133,0.30)]">
+        <div class="flex flex-col">
+          <span class="text-sm font-bold">Il tuo risultato</span>
+          <span class="font-display text-[30px] uppercase leading-[1.1] tracking-wide">{{ game.myPosition() }}° posto</span>
+        </div>
+        <span class="text-2xl font-extrabold tabular-nums">{{ fmt(game.myScore()) }} pt</span>
+      </div>
+    </div>
+  }
+</main>

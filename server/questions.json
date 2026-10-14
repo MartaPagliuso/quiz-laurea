@@ -3,12 +3,34 @@
     "text": "Quale algoritmo di ordinamento ha complessità media O(n log n) ed è stabile?",
     "options": ["Quicksort", "Merge sort", "Heap sort", "Selection sort"],
     "correct": 1,
-    "time": 20
+    "time": 10
   },
   {
-    "text": "Domanda di esempio sulla tua università?",
-    "options": ["Risposta A", "Risposta B", "Risposta C", "Risposta D"],
+    "text": "Cosa significa l'acronimo HTTP?",
+    "options": [
+      "HyperText Transfer Protocol",
+      "High Transfer Text Protocol",
+      "HyperText Transmission Process",
+      "Host Transfer Technology Protocol"
+    ],
     "correct": 0,
-    "time": 15
+    "time": 10
+  },
+  {
+    "text": "In un database relazionale, quale vincolo garantisce che ogni valore di una colonna sia diverso dagli altri e identifichi in modo univoco una riga della tabella?",
+    "options": [
+      "Chiave esterna (foreign key)",
+      "Indice non univoco",
+      "Chiave primaria (primary key)",
+      "Vincolo CHECK sulla colonna"
+    ],
+    "correct": 2,
+    "time": 10
+  },
+  {
+    "text": "Quanti bit ci sono in un byte?",
+    "options": ["16", "32", "4", "8"],
+    "correct": 3,
+    "time": 10
   }
 ]

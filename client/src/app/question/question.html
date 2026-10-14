@@ -1,0 +1,54 @@
+@if (game.question(); as q) {
+  <main class="flex min-h-dvh flex-col bg-brand-bg">
+    <header class="relative flex min-h-[330px] shrink-0 flex-col gap-4 overflow-hidden rounded-b-[44px] bg-brand-teal px-6 pb-9 pt-7">
+      <div aria-hidden="true" class="absolute -right-[70px] -top-[90px] size-[230px] rounded-full bg-white/[0.07]"></div>
+      <div aria-hidden="true" class="absolute -bottom-[60px] -left-[50px] size-[150px] rounded-full bg-white/[0.07]"></div>
+
+      <div class="relative flex items-center justify-between">
+        <span class="text-[17px] font-bold tracking-wide text-white">Domanda {{ q.index + 1 }} di {{ q.total }}</span>
+        <div
+          role="timer" [attr.aria-label]="game.secondsLeft() + ' secondi rimasti'"
+          class="flex size-14 items-center justify-center rounded-full bg-brand-orange font-display text-[26px] text-brand-ink"
+        >{{ game.secondsLeft() }}</div>
+      </div>
+
+      <div aria-hidden="true" class="relative h-2.5 overflow-hidden rounded-full bg-white/25">
+        <div class="h-full rounded-full bg-brand-orange" [style.width.%]="game.progress()"></div>
+      </div>
+
+      <h1 class="relative flex grow items-center text-[25px] font-extrabold leading-[1.28] text-white">{{ q.text }}</h1>
+    </header>
+
+    <div class="flex grow flex-col justify-end gap-3 px-6 pb-8 pt-6">
+      @if (answered()) {
+        <div role="status" class="mb-1 flex items-center gap-3 self-center">
+          <span aria-hidden="true" class="flex gap-1.5">
+            <span class="size-2.5 rounded-full bg-brand-orange motion-safe:animate-pulse"></span>
+            <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:200ms] motion-safe:animate-pulse"></span>
+            <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:400ms] motion-safe:animate-pulse"></span>
+          </span>
+          <span class="text-[17px] font-bold">Risposta inviata! Aspettiamo gli altri…</span>
+        </div>
+      }
+
+      @for (o of q.options; track $index) {
+        <button
+          type="button"
+          [disabled]="answered() || game.secondsLeft() === 0"
+          [attr.aria-pressed]="game.yourAnswer() === $index"
+          (click)="game.answer($index)"
+          class="flex min-h-[84px] w-full items-center gap-4 rounded-[20px] border-2 px-[18px] py-3 text-left transition enabled:active:translate-y-0.5"
+          [class]="optionClass($index)"
+        >
+          <span aria-hidden="true" class="flex size-[46px] shrink-0 items-center justify-center rounded-[14px] font-display text-2xl" [class]="badge($index)">{{ letters[$index] }}</span>
+          <span class="grow text-[19px] font-bold">{{ o }}</span>
+          @if (game.yourAnswer() === $index) {
+            <span aria-hidden="true" class="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-teal">
+              <svg viewBox="0 0 24 24" class="size-[18px]" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            </span>
+          }
+        </button>
+      }
+    </div>
+  </main>
+}

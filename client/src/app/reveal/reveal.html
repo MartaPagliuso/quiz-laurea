@@ -1,0 +1,89 @@
+@if (game.reveal(); as r) {
+  <main class="flex min-h-dvh flex-col bg-brand-bg">
+    <header
+      class="relative flex min-h-[270px] shrink-0 flex-col items-center justify-center gap-2 overflow-hidden rounded-b-[44px] px-6 pb-11 text-center text-white"
+      [class]="view().bg"
+    >
+      <div aria-hidden="true" class="absolute -right-[60px] -top-20 size-[210px] rounded-full bg-white/10"></div>
+      <div aria-hidden="true" class="absolute -left-14 bottom-2.5 size-[150px] rounded-full bg-white/10"></div>
+
+      <div
+        aria-hidden="true"
+        class="relative flex size-16 items-center justify-center rounded-full"
+        [class]="game.outcome() === 'timeout' ? 'bg-brand-orange' : 'bg-white'"
+      >
+        @switch (game.outcome()) {
+          @case ('correct') {
+            <svg viewBox="0 0 24 24" class="size-[34px] text-ok" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          }
+          @case ('wrong') {
+            <svg viewBox="0 0 24 24" class="size-[30px] text-ko" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12" /><path d="M18 6L6 18" /></svg>
+          }
+          @default {
+            <svg viewBox="0 0 24 24" class="size-[34px] text-brand-ink" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8" /><path d="M12 9v4.5l3 1.5" /><path d="M9.5 2.5h5" /></svg>
+          }
+        }
+      </div>
+
+      <h1 class="relative font-display text-5xl uppercase leading-none tracking-wide">{{ view().title }}</h1>
+      <p class="relative rounded-full bg-black/20 px-[18px] py-1 text-xl font-extrabold">+{{ fmt(r.gain) }} punti</p>
+      @if (game.outcome() === 'wrong') {
+        <p class="relative text-base font-bold">Hai risposto {{ yourChoice() }}</p>
+      } @else if (game.outcome() === 'timeout') {
+        <p class="relative text-base font-bold">Non hai risposto in tempo</p>
+      }
+    </header>
+
+    <section class="relative z-10 -mt-11 mx-6 flex flex-col gap-2 rounded-3xl bg-white px-5 py-[18px] shadow-[0_12px_32px_rgba(11,58,64,0.12)]">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-brand-muted">Risposta giusta</h2>
+      <div class="flex items-center gap-3.5">
+        <span aria-hidden="true" class="flex size-11 shrink-0 items-center justify-center rounded-[14px] font-display text-[22px]" [class]="badge(r.correct)">{{ letters[r.correct] }}</span>
+        <span class="text-[21px] font-extrabold">{{ r.options[r.correct] }}</span>
+      </div>
+    </section>
+
+    <section class="mx-6 mt-3.5 flex flex-col gap-2.5 rounded-3xl bg-white px-5 py-[18px] shadow-[0_8px_24px_rgba(11,58,64,0.08)]">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-[22px] font-extrabold">Sei {{ r.position }}°</h2>
+        <span class="text-lg font-extrabold text-brand-teal">{{ fmt(r.score) }} pt</span>
+      </div>
+      <ol class="flex flex-col gap-1.5">
+        @for (row of r.top; track row.name; let i = $index) {
+          @let isMe = row.name === game.name();
+          <li class="flex h-11 items-center gap-3 rounded-[14px] border-2 px-2.5" [class]="isMe ? 'border-brand-teal bg-[#E6F3F4]' : 'border-transparent bg-brand-tint'">
+            <span
+              aria-hidden="true"
+              class="flex size-7 shrink-0 items-center justify-center rounded-full text-[15px] font-extrabold"
+              [class]="isMe ? 'bg-brand-teal text-white' : i === 0 ? 'bg-brand-orange text-brand-ink' : 'bg-[#D2E8EA]'"
+            >{{ i + 1 }}</span>
+            <span class="min-w-0 grow truncate text-base font-bold">{{ row.name }}</span>
+            @if (isMe) {
+              <span class="shrink-0 rounded-lg bg-brand-orange px-[7px] py-0.5 text-xs font-extrabold tracking-wide">TU</span>
+            }
+            <span class="shrink-0 text-base font-bold tabular-nums">{{ fmt(row.score) }}</span>
+          </li>
+        }
+        @if (r.position > 5) {
+          <li aria-hidden="true" class="text-center leading-none text-brand-muted">···</li>
+          <li class="flex h-11 items-center gap-3 rounded-[14px] border-2 border-brand-teal bg-[#E6F3F4] px-2.5">
+            <span aria-hidden="true" class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-teal text-[15px] font-extrabold text-white">{{ r.position }}</span>
+            <span class="min-w-0 grow truncate text-base font-bold">{{ game.name() }}</span>
+            <span class="shrink-0 rounded-lg bg-brand-orange px-[7px] py-0.5 text-xs font-extrabold tracking-wide">TU</span>
+            <span class="shrink-0 text-base font-bold tabular-nums">{{ fmt(r.score) }}</span>
+          </li>
+        }
+      </ol>
+    </section>
+
+    <div role="status" class="mt-auto flex justify-center px-6 pb-8 pt-6">
+      <div class="flex items-center gap-3.5 rounded-full border-2 border-brand-line bg-white px-[22px] py-3">
+        <span aria-hidden="true" class="flex gap-1.5">
+          <span class="size-2.5 rounded-full bg-brand-orange motion-safe:animate-pulse"></span>
+          <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:200ms] motion-safe:animate-pulse"></span>
+          <span class="size-2.5 rounded-full bg-brand-orange [animation-delay:400ms] motion-safe:animate-pulse"></span>
+        </span>
+        <span class="text-base font-bold">{{ r.isLast ? 'In attesa della classifica finale' : 'In attesa della prossima domanda' }}</span>
+      </div>
+    </div>
+  </main>
+}

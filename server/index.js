@@ -44,6 +44,33 @@ function publicQuestion() {
   };
 }
 
+// Cosa vede UN giocatore nel reveal
+function revealPayload(p, board) {
+  const q = questions[game.currentIndex];
+  return {
+    correct: q.correct,
+    options: q.options,
+    yourAnswer: p.answer ? p.answer.choice : null,
+    gain: p.lastGain,
+    score: p.score,
+    position: board.findIndex(b => b.name === p.name) + 1,
+    top: board.slice(0,5),
+    isLast: game.currentIndex === questions.length - 1,
+  };
+}
+
+// Stato da dare a un giocatore che entra o rientra, qualunque sia la fase
+function snapshotFor(player) {
+  const snap = { phase: game.phase };
+  if (game.phase === 'QUESTION') {
+    snap.question = { ...publicQuestion(), yourAnswer: player.answer ? player.answer.choice : null };
+
+  }
+  if (game.phase === 'REVEAL') snap.reveal = revealPayload(player, leaderboard());
+  if (game.phase === 'FINAL') snap.leaderboard = leaderboard();
+  return snap;
+}
+
 function connectedPlayers() {
   return [...game.players.values()].filter(p => p.socketId);
 }
@@ -77,22 +104,11 @@ function reveal() {
   const q = questions[game.currentIndex];
   const board = leaderboard();
 
-  // Ogni giocatore riceve il proprio esito personale
   game.players.forEach(p => {
     if (!p.socketId) return;
-    const position = board.findIndex(b => b.name === p.name) + 1;
-    io.to(p.socketId).emit('reveal', {
-      correct: q.correct,
-      yourAnswer: p.answer ? p.answer.choice : null,
-      gain: p.lastGain,
-      score: p.score,
-      position,
-      top: board.slice(0, 5),
-      isLast: game.currentIndex === questions.length - 1,
-    });
+    io.to(p.socketId).emit('reveal', revealPayload(p, board));
   });
 
-  // Salviamo l'ultimo reveal, così la regia lo ritrova se ricarica la pagina
   game.lastReveal = {
     index: game.currentIndex,
     correct: q.correct,
@@ -128,12 +144,15 @@ function computePoints(isCorrect, timeLeftMs, totalMs) {
 io.on('connection', (socket) => {
 
   // Il giocatore entra (o rientra) con un nome
-  socket.on('join', (rawName, ack) => {
-    const name = String(rawName || '').trim().slice(0, 20);
+    socket.on('join', (payload, ack) => {
+    const name = String(payload?.name ?? '').trim().slice(0, 20);
+    const token = String(payload?.token ?? '');
     if (!name) return ack?.({ ok: false, error: 'Inserisci un nome' });
 
     const existing = game.players.get(name);
-    if (existing && existing.socketId && existing.socketId !== socket.id) {
+
+    // Nome occupato da un altro telefono connesso (stesso codice = lo stesso telefono che rientra)
+    if (existing && existing.socketId && existing.token !== token) {
       return ack?.({ ok: false, error: 'Nome già in uso' });
     }
     if (!existing && game.phase !== 'LOBBY') {
@@ -141,16 +160,13 @@ io.on('connection', (socket) => {
     }
 
     const player = existing || { name, score: 0, answer: null, lastGain: 0 };
+    player.token = token;
     player.socketId = socket.id;
     game.players.set(name, player);
     socket.data.name = name;
 
-    ack?.({ ok: true, name, phase: game.phase });
+    ack?.({ ok: true, name, ...snapshotFor(player) });
     broadcastLobby();
-
-    // Se rientra a gioco in corso, risincronizzalo
-    if (game.phase === 'QUESTION') socket.emit('question', publicQuestion());
-    if (game.phase === 'FINAL') socket.emit('final', { leaderboard: leaderboard() });
   });
 
   // Il giocatore risponde

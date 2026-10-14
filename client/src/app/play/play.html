@@ -1,0 +1,6 @@
+@switch (game.phase()) {
+  @case ('LOBBY') { <app-lobby /> }
+  @case ('QUESTION') { <app-question /> }
+  @case ('REVEAL') { <app-reveal /> }
+  @case ('FINAL') { <app-final /> }
+}
