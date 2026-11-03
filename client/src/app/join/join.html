@@ -52,7 +52,7 @@
     </div>
 
     <button type="submit" [disabled]="loading()"
-      class="flex h-[60px] w-full items-center justify-center gap-2.5 rounded-2xl bg-brand-orange text-/[19px] font-extrabold uppercase tracking-[1.5px] text-brand-ink shadow-[0_8px_16px_rgba(255,159,28,0.35)] transition hover:brightness-95 active:translate-y-0.5 disabled:opacity-60">
+      class="flex h-[60px] w-full items-center justify-center gap-2.5 rounded-2xl bg-brand-orange text-[19px] font-extrabold uppercase tracking-[1.5px] text-brand-ink shadow-[0_8px_16px_rgba(255,159,28,0.35)] transition hover:brightness-95 active:translate-y-0.5 disabled:opacity-60">
       {{ loading() ? 'Entro...' : closed() ? 'Rientra' : 'Entra' }}
       <svg aria-hidden="true" viewBox="0 0 24 24" class="size-[22px]" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
