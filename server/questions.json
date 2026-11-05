@@ -1,36 +1,56 @@
 [
   {
-    "text": "Quale algoritmo di ordinamento ha complessità media O(n log n) ed è stabile?",
-    "options": ["Quicksort", "Merge sort", "Heap sort", "Selection sort"],
+    "text": "Un soprannome di Marta è 'KungFuMarta'. A quale animale fa riferimento?",
+    "options": ["Panda", "Panda rosso", "Lemure", "Mantide Religiosa"],
     "correct": 1,
     "time": 10
   },
   {
-    "text": "Cosa significa l'acronimo HTTP?",
-    "options": [
-      "HyperText Transfer Protocol",
-      "High Transfer Text Protocol",
-      "HyperText Transmission Process",
-      "Host Transfer Technology Protocol"
-    ],
-    "correct": 0,
-    "time": 10
-  },
-  {
-    "text": "In un database relazionale, quale vincolo garantisce che ogni valore di una colonna sia diverso dagli altri e identifichi in modo univoco una riga della tabella?",
-    "options": [
-      "Chiave esterna (foreign key)",
-      "Indice non univoco",
-      "Chiave primaria (primary key)",
-      "Vincolo CHECK sulla colonna"
-    ],
+    "text": "Un altro soprannome di Marta è 'BG'. Per cosa sta?",
+    "options": ["Bad Girl", "Big Gay", "Bottle Girl", "Bossy Girl"],
     "correct": 2,
     "time": 10
   },
   {
-    "text": "Quanti bit ci sono in un byte?",
-    "options": ["16", "32", "4", "8"],
+    "text": "Quanto fa 8-8?",
+    "options": ["4", "0", "16", "1"],
     "correct": 3,
+    "time": 10
+  },
+  {
+    "text": "Quale soprannome è stato dato a un luogo dell'università al secondo anno?",
+    "options": [
+      "Il piano inclinato",
+      "",
+      "",
+      "Le panchine del pianto"],
+    "correct": 3,
+    "time": 10
+  },
+  {
+    "text": "Qual è la canzone preferita di Marta?",
+    "options": [
+      "3 Libras - A Perfect Circle",
+      "Hand in Glove - The Smiths",
+      "Silver Springs - Fleetwood Mac",
+      "Jigsaw Falling Into Place - Radiohead"],
+    "correct": 0,
+    "time": 10
+  },
+  {
+    "text": "In quale giorno della settimana Curti esplode?",
+    "options": ["Lunedì", "Venerdì", "Mercoledì", "Domenica"],
+    "correct": 1,
+    "time": 10
+  },
+  {
+    "text": "A quale esame Marta ha preso il suo unico 30 e lode?",
+    "options": [
+      "Tecnologie Web",
+      "Laboratorio di Programmazione",
+      "Ingegneria del Software",
+      "Fondamenti di Informatica"],
+    "correct": 1,
     "time": 10
   }
 ]
