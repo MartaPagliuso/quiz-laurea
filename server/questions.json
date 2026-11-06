@@ -12,18 +12,24 @@
     "time": 10
   },
   {
-    "text": "Quanto fa 8-8?",
-    "options": ["4", "0", "16", "1"],
+    "text": "Qual era il tema della tesina dell'esame di maturità di Marta?",
+    "options": [
+      "L'amore",
+      "La saggezza",
+      "Otium e Negotium",
+      "La superstizione"
+    ],
     "correct": 3,
     "time": 10
   },
   {
-    "text": "Quale soprannome è stato dato a un luogo dell'università al secondo anno?",
+    "text": "Quale lavoro Marta voleva fare quando era piccola?",
     "options": [
-      "Il piano inclinato",
-      "",
-      "",
-      "Le panchine del pianto"],
+      "Fare la camionista",
+      "Guidare le ruspe in un cantiere",
+      "Musicista",
+      "Lavorare allo scasso delle macchine"
+    ],
     "correct": 3,
     "time": 10
   },
@@ -33,13 +39,19 @@
       "3 Libras - A Perfect Circle",
       "Hand in Glove - The Smiths",
       "Silver Springs - Fleetwood Mac",
-      "Jigsaw Falling Into Place - Radiohead"],
+      "Jigsaw Falling Into Place - Radiohead"
+    ],
     "correct": 0,
     "time": 10
   },
   {
-    "text": "In quale giorno della settimana Curti esplode?",
-    "options": ["Lunedì", "Venerdì", "Mercoledì", "Domenica"],
+    "text": "Qual è il cartone Disney preferito di Marta?",
+    "options": [
+      "Pocahontas",
+      "Mulan",
+      "Hercules",
+      "Il gobbo di Notre Dame"
+    ],
     "correct": 1,
     "time": 10
   },
@@ -51,6 +63,28 @@
       "Ingegneria del Software",
       "Fondamenti di Informatica"],
     "correct": 1,
+    "time": 10
+  },
+  {
+    "text": "Quale di queste cose dà più fastidio a Marta?",
+    "options": [
+      "Il polistirolo strofinato",
+      "Una penna che fa clic di continuo",
+      "Un palloncino stretto o una molla tirata",
+      "Una forchetta che gratta il piatto"
+    ],
+    "correct": 2,
+    "time": 10
+  },
+  {
+    "text": "Di che tipo di animali ha paura Marta?",
+    "options": [
+      "Quelli lunghi e viscidi, come anguille e vermi",
+      "Quelli con le squame, come lucertole e coccodrilli",
+      "Quelli lunghi e secchi, senza zampe",
+      "Quelli con troppe zampe, come ragni e scolopendre"
+    ],
+    "correct": 0,
     "time": 10
   }
 ]
