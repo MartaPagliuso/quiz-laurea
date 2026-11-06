@@ -9,11 +9,16 @@ export class SocketService {
   readonly socket: Socket = io();
   readonly playerName = signal<string | null>(null);
   readonly players = signal<string[]>([]);
+  readonly connected = signal(true);
 
   private readonly fallbackToken = Math.random().toString(36).slice(2) + Date.now().toString(36);
 
   constructor() {
     this.socket.on('lobby', (data: { players: string[] }) => this.players.set(data.players));
+
+    this.socket.on('connect', () => this.connected.set(true));
+    this.socket.on('disconnect', () => this.connected.set(false));
+    this.socket.on('connect_error', () => this.connected.set(false));
   }
 
   join(name: string): Promise<JoinResult> {
